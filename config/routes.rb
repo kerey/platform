@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :lessons
+  resources :courses
   get 'sessions/new'
 
   	get 'users/new'
