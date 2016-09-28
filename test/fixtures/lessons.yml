@@ -3,9 +3,9 @@
 one:
   title: MyString
   short_description: MyText
-  course_id: 1
+  course: one
 
 two:
   title: MyString
   short_description: MyText
-  course_id: 1
+  course: two

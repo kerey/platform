@@ -1,0 +1,8 @@
+<li id="lesson-<%= lesson.id %>">
+  <span class="course"><%= link_to lesson.course.title, lesson.course %></span>
+  <span class="title"><%= lesson.title %></span>
+  <span class="short_description"><%= lesson.short_description %></span>
+  <span class="timestamp">
+    Created <%= time_ago_in_words(lesson.created_at) %> ago.
+  </span>
+</li>

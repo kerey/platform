@@ -18,3 +18,10 @@ User.create!(name:  "Bakytzhan",
              password_confirmation: "tomato1",
              teacher: true
              )
+
+courses = Course.order(:created_at).take(1)
+5.times do
+  title = Faker::Lorem.sentence(1)
+  short_description = Faker::Lorem.sentence(5)
+  courses.each { |course| course.lessons.create!(title: title, short_description: short_description) }
+end
