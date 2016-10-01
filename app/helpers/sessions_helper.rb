@@ -58,4 +58,8 @@ module SessionsHelper
    def store_location
      session[:forwarding_url] = request.original_url if request.get?
    end
+  def current_course
+    @current_course ||= Course.find_by(id: session[:current_course_id])
+  end
+   
 end

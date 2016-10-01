@@ -1,4 +1,6 @@
 class CoursesController < ApplicationController
+  before_action :logged_in_user, only: [:edit, :update, :destroy]
+  
   before_action :set_course, only: [:show, :edit, :update, :destroy]
   before_action :check_owner, only: [:edit, :update, :destroy]
   before_action :check_teacher, only: [:create, :new]
@@ -18,6 +20,7 @@ class CoursesController < ApplicationController
   # GET /courses/new
   def new
     @course = Course.new
+    # @lesson = current_course.lessons.build if logged_in?
   end
 
   # GET /courses/1/edit
@@ -29,14 +32,13 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(course_params)
     @course.teacher = current_user
-    respond_to do |format|
-      if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
-        format.json { render :show, status: :created, location: @course }
-      else
-        format.html { render :new }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
+    if @course.save
+      # format.html { redirect_to @course, notice: 'Course was successfully created.' }
+      # format.json { render :show, status: :created, location: @course }
+      render 'lessons/new'        
+    else
+      format.html { render :new }
+      format.json { render json: @course.errors, status: :unprocessable_entity }
     end
   end
 
@@ -62,6 +64,10 @@ class CoursesController < ApplicationController
       format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def current_course
+    @course
   end
 
   private

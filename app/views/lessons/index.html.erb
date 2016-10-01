@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Lessons of <%=@course.title%> course</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Short description</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lessons.each do |lesson| %>
+      <tr>
+        <td><%= lesson.title %></td>
+        <td><%= lesson.short_description %></td>
+        <td><%#= link_to 'Show', lesson %></td>
+        <%if current_user.teacher? %>
+          <td><%= link_to 'Edit', edit_lesson_path(lesson) %></td>
+          <td><%= link_to 'Destroy', lesson, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Add lesson', new_lesson_path %>
