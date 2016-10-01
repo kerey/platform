@@ -1,4 +1,6 @@
 class Course < ApplicationRecord
-	belongs_to :teacher, class_name: "User", foreign_key: :teacher_id
-	has_many :lessons, dependent: :destroy
+  belongs_to :user
+  default_scope->{order(created_at: :desc)}
+  validates :user_id, presence: true
+  validates :title, presence: true
 end

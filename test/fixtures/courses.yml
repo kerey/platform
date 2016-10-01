@@ -3,9 +3,9 @@
 one:
   title: MyString
   short_description: MyText
-  teacher_id: 
+  user: one
 
 two:
   title: MyString
   short_description: MyText
-  teacher_id: 
+  user: two

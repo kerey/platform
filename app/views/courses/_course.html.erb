@@ -1,0 +1,7 @@
+<li id="course-<%= micropost.title %>">
+  <span class="user"><%= link_to course.user.name, course.user %></span>
+  <span class="short_description"><%= course.short_description %></span>
+  <span class="timestamp">
+    Created <%= time_ago_in_words(course.created_at) %> ago.
+  </span>
+</li>
