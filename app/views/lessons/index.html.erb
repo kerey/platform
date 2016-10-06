@@ -16,7 +16,7 @@
       <tr>
         <td><%= lesson.title %></td>
         <td><%= lesson.short_description %></td>
-        <td><%#= link_to 'Show', lesson %></td>
+        <td><%= link_to 'Show', lesson %></td>
         <%if current_user.teacher? %>
           <td><%= link_to 'Edit', edit_lesson_path(lesson) %></td>
           <td><%= link_to 'Destroy', lesson, method: :delete, data: { confirm: 'Are you sure?' } %></td>

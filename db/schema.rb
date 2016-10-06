@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928053802) do
+ActiveRecord::Schema.define(version: 20161005093929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20160928053802) do
     t.index ["course_id"], name: "index_lessons_on_course_id", using: :btree
   end
 
+  create_table "relationships", force: :cascade do |t|
+    t.integer  "course_id"
+    t.integer  "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "student_id"], name: "index_relationships_on_course_id_and_student_id", unique: true, using: :btree
+    t.index ["course_id"], name: "index_relationships_on_course_id", using: :btree
+    t.index ["student_id"], name: "index_relationships_on_student_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -42,6 +52,7 @@ ActiveRecord::Schema.define(version: 20160928053802) do
     t.string   "remember_digest"
     t.boolean  "admin",           default: false
     t.boolean  "teacher",         default: false
+    t.boolean  "student",         default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 

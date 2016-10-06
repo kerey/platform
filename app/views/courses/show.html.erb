@@ -24,3 +24,13 @@
 	    <% end %>
 	</div>
 </div>
+<div class="add_lesson">
+  <%if current_user.teacher?%>
+    <%= link_to "Add lesson", controller: "lessons", action: "new", id: @course.id%>
+  <%end%>
+</div>
+<div class="add_students">
+  <%if current_user.admin?%>
+    <%= link_to "Add students", controller: "courses", action: "add_students", id: @course.id%>
+  <%end%>
+</div>

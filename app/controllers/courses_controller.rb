@@ -3,47 +3,37 @@ class CoursesController < ApplicationController
   
   before_action :set_course, only: [:show, :edit, :update, :destroy]
   before_action :check_owner, only: [:edit, :update, :destroy]
-  before_action :check_teacher, only: [:create, :new]
-  # GET /courses
-  # GET /courses.json
+  before_action :check_teacher, only: [:create, :new] 
+##FOR ALL#############################  
   def index
     @courses = Course.all
   end
-
-  # GET /courses/1
-  # GET /courses/1.json
   def show
     @course = Course.find(params[:id])
     @lessons = @course.lessons.paginate(page: params[:page])
   end
-
-  # GET /courses/new
+  def my_courses
+    @my_courses = Course.where(teacher_id: current_user.id) 
+  end
+##ONLY FOR TEACHERS####################
   def new
     @course = Course.new
-    # @lesson = current_course.lessons.build if logged_in?
   end
-
-  # GET /courses/1/edit
-  def edit
-  end
-
-  # POST /courses
-  # POST /courses.json
   def create
     @course = Course.new(course_params)
+    @course.teacher_id = current_user.id
     @course.teacher = current_user
     if @course.save
       # format.html { redirect_to @course, notice: 'Course was successfully created.' }
       # format.json { render :show, status: :created, location: @course }
-      render 'lessons/new'        
+      redirect_to @course        
     else
       format.html { render :new }
       format.json { render json: @course.errors, status: :unprocessable_entity }
     end
   end
-
-  # PATCH/PUT /courses/1
-  # PATCH/PUT /courses/1.json
+  def edit
+  end
   def update
     respond_to do |format|
       if @course.update(course_params)
@@ -55,9 +45,6 @@ class CoursesController < ApplicationController
       end
     end
   end
-
-  # DELETE /courses/1
-  # DELETE /courses/1.json
   def destroy
     @course.destroy
     respond_to do |format|
@@ -65,20 +52,22 @@ class CoursesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def current_course
-    @course
+##ONLY FOR ADMINS#####################
+  def add_students
+    @students = User.where(student: true)
+    @course = Course.find(params[:id])
   end
-
+  def register_student
+    @
+  end
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
-      params.require(:course).permit(:title, :short_description, :teacher_id)
+      params.require(:course).permit(:title, :short_description)
     end
 
     def check_teacher

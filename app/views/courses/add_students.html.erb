@@ -1,0 +1,33 @@
+<h2><%=@course.title %></h2>
+<div class="students">
+	<div class="col-lg-6 notregistered">
+		<h2>Not registered students</h2>
+		<table class = "table table-bordered">
+		<%User.all.each do |student|%>
+			<tr>
+				<td>
+				<%=student.name%>
+				</td>
+				<td>
+				<%= link_to "Register", controller: "courses", action: "register_student", course_id:@course.id, student_id: student.id %>
+				</td>	
+			</tr>
+		<%end%>
+		</table>
+	</div>
+	<div class="col-lg-6 registered">
+		<h2>Registered students</h2>
+		<table class = "table table-bordered">
+		<%User.all.each do |student|%>
+			<tr>
+				<td>
+				<%=student.name%>
+				</td>
+				<td>
+				<%= link_to "Unregister"%>
+				</td>	
+			</tr>
+		<%end%>
+		</table>
+	</div>
+</div>

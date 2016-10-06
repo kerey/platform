@@ -1,0 +1,14 @@
+<div id="lesson-<%= @lesson.id %>">
+  <h5>
+  	Lesson of 
+  	<%= link_to @lesson.course.title, @lesson.course %>
+  	
+  </h5>
+  <ul>
+  	<li class="title">Lesson title: <%= @lesson.title %></li>
+  	<li>Short description: <%= @lesson.short_description %>
+  	</li>
+  	<li>
+    Created <%= time_ago_in_words(@lesson.created_at) %> ago.
+  	</li>
+</div>

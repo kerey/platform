@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :courses
+  get '/my-courses',   to: 'courses#my_courses'
+  get '/add_students', to: 'courses#add_students'
+  get '/register_student', to: 'courses#register_student'
+  
   root 'static_pages#home'
   get 'sessions/new'
   get 'users/new'

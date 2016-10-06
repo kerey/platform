@@ -5,4 +5,13 @@
     | <%= link_to "delete", user, method: :delete,
                                   data: { confirm: "You sure?" } %>
   <% end %>
+  <%if user.admin?%>
+  	admin
+  <%end%>
+  <%if user.teacher?%>
+  	teacher
+  <%end%>
+  <%if user.student?%>
+  	student
+  <%end%>
 </li>
