@@ -1,10 +1,31 @@
 <% provide(:title, 'All users') %>
-<h1>All users</h1>
-
-<%= will_paginate %>
-
-<ul class="users">
-  <%= render @users %>
-</ul>
-
-<%= will_paginate %>
+<h1>Все пользователи</h1>
+<table class = "table table-bordered" >
+<%i=1%>
+<%@users.each do |user|%>
+	<tr>
+		<td><%=i%></td>
+		<td><%=link_to user.name, user%></td>
+		<%if current_user.admin?%>
+			<td><%=user.email%></td>
+			<td><%=link_to "Edit user", edit_user_path(user)%></td>
+		<%end%>
+		<td>
+			<%if user.admin?%>
+				admin
+			<%end%>
+			<%if user.teacher?%>
+				teacher
+			<%end%>
+			<%if user.student?%>
+				student
+			<%end%>
+		</td>
+		
+		<% if current_user.admin? && !current_user?(user) %>
+    	<td><%= link_to "delete", user, method: :delete, data: { confirm: "Вы уверены?" } %></td>
+  		<% end %>
+	</tr>
+	<%i=i+1%>
+<%end%>
+</table>

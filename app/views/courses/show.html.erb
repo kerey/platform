@@ -1,36 +1,55 @@
-<p id="notice"><%= notice %></p>
-<div class="row">
-  	<aside class="col-md-4">
-    	<section class="course_info">
-      		<h1>
-        		<%= @course.title %>
-      		</h1>
-          <p>
-            <strong>Short description:</strong>
-            <%= @course.short_description %>
-          </p>
-          <%= link_to 'Edit', edit_course_path(@course) %> |
-          <%= link_to 'Back', courses_path %>
+<div class="container">
+  <p id="notice"><%= notice %></p>
+  <div class="row">
+    	<aside class="col-md-4">
+      	<section class="course_info">
+        		<h1>
+          		<%= @course.title %>
+        		</h1>
+            <p>
+              <strong>Short description:</strong>
+              <%= @course.short_description %>
+            </p>
+      	</section>
+    	</aside>
+  	<div class="col-md-4">
+      	<% if @course.lessons.any? %>
+  	      	<h3>Lessons (<%= @course.lessons.count %>)</h3>
+          <ol class="lessons">
+            <%@course.lessons.each do |lesson|%>
+              <li id="lesson-<%= lesson.id %>">
+                <span class="title"><%= lesson.title %></span>
 
-    	</section>
-  	</aside>
-	<div class="col-md-8">
-    	<% if @course.lessons.any? %>
-	      	<h3>Lessons (<%= @course.lessons.count %>)</h3>
-	      <ol class="lessons">
-	        <%= render @lessons %>
-	      </ol>
-	      <%= will_paginate @lessons %>
-	    <% end %>
-	</div>
+                <%if @course.registered?(current_user.id, @course.id)||@course.teacher_id == current_user.id%>
+                  <span><%=link_to "Show", lesson %></span>
+                <%end%>
+                <span class="timestamp">
+                  Created <%= time_ago_in_words(lesson.created_at) %> ago.
+                </span>
+              </li>
+            <%end%>
+    	     </ol>
+  	      <%= will_paginate @lessons %>
+  	    <% end %>
+  	</div>
+  <div class="col-lg-4">
+    <h5>Registered Students(<%=@students.count%>)</h5>
+    <ol>
+    <%@students.each do |student|%>
+      <li><%=student.name%></li>
+    <%end%>
+    </ol>
+  </div>
 </div>
-<div class="add_lesson">
-  <%if current_user.teacher?%>
+<div class="actions">
+  <%if current_user.admin?%>
+    <%= link_to "Add students", controller: "courses", action: "add_students", course_id: @course.id%> | 
+  <%end%>
+  <%= link_to 'Back', courses_path %>
+
+  <%if current_user.owner?(@course)%>
+    <%= link_to "Edit", edit_course_path%>
     <%= link_to "Add lesson", controller: "lessons", action: "new", id: @course.id%>
   <%end%>
 </div>
-<div class="add_students">
-  <%if current_user.admin?%>
-    <%= link_to "Add students", controller: "courses", action: "add_students", id: @course.id%>
-  <%end%>
-</div>
+

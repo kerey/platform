@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/my-courses',   to: 'courses#my_courses'
   get '/add_students', to: 'courses#add_students'
   get '/register_student', to: 'courses#register_student'
+  get '/unregister_student', to: 'courses#unregister_student'
   
   root 'static_pages#home'
   get 'sessions/new'

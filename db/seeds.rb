@@ -18,10 +18,23 @@
 #              password_confirmation: "tomato1",
 #              teacher: true
 #              )
-User.create!(name:  "Akzholtay",
-             email: "akzholtay.k@gmail.com",
-             password:              "Fizik1995",
-             password_confirmation: "Fizik1995",
+# User.create!(name:  "Akzholtay",
+#              email: "akzholtay.k@gmail.com",
+#              password:              "Fizik1995",
+#              password_confirmation: "Fizik1995",
+#              student: true
+#              )
+
+# User.create!(name:  "Dariga",
+#              email: "dariga@intellection.kz",
+#              password:              "tomato1",
+#              password_confirmation: "tomato1",
+#              student: true
+#              )
+User.create!(name:  "Sultan",
+             email: "sultan@intellection.kz",
+             password:              "tomato1",
+             password_confirmation: "tomato1",
              student: true
              )
 

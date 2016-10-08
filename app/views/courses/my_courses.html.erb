@@ -8,7 +8,10 @@
     	<th>#</th>
       	<th>Title</th>
       	<th>Short description</th>
-      	<th colspan="3">Operations</th>
+        <th>Number of students</th>
+        <%if current_user.teacher?%>
+      	<th colspan="2">Operations</th>
+        <%end%>
     </tr>
   </thead>
 
@@ -17,12 +20,12 @@
     <% @my_courses.each do |course| %>
       <tr>
       	<td><%=i%></td>
-        <td><%= course.title %></td>
+        <td><%= link_to course.title, course %></td>
         <td><%= course.short_description %></td>
-        <td><%= link_to 'Show', course %></td>
-        <%if current_user.teacher? %>
-          <td><%= link_to 'Edit', edit_course_path(course) %></td>
-          <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= course.students.count%></td>
+        <%if current_user.owner?(course) %>
+          <td><%= link_to 'Edit', edit_course_path(course), class: "btn btn-primary" %></td>
+          <td><%= link_to 'Destroy', course, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
       </tr>
       <%i=i+1%>

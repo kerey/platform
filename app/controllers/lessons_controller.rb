@@ -1,8 +1,15 @@
 class LessonsController < ApplicationController
   	before_action :logged_in_user, only: [:create, :destroy, :new]
+  	before_action :registrated, only:[:show]
+  	
   	def show
   		@lesson = Lesson.find(params[:id])
   	end
+  	def index
+		@course = Course.find(params[:id])
+		@lessons = @course.lessons
+	end
+##ONLY FOR TEACHERS##############
   	def new
   		@course = Course.find(params[:id])
     	@lesson = @course.lessons.build if logged_in?   	
@@ -19,14 +26,12 @@ class LessonsController < ApplicationController
 	end
 	def destroy
 	end
-	def index
-		@course = Course.find(params[:id])
-		@lessons = @course.lessons
-	end
-
+##################################
 	private
+		def lesson_params
+		  params.require(:lesson).permit(:title, :short_description)
+		end
+		def registrated 
 
-    def lesson_params
-      params.require(:lesson).permit(:title, :short_description)
-    end
+		end
 end

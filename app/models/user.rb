@@ -8,9 +8,11 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
-  has_many :courses, through: :relationships
-  has_many :courses
+  has_many :teachings, class_name: "Course", foreign_key: :teacher_id
 
+  # has_many name: "Relationship", foreign_key: "course_id", dependent: :destroy
+  has_many :relationships  
+  has_many :courses, through: :relationships 
   class << self
     # Returns the hash digest of the given string.
     def digest(string)
@@ -23,6 +25,7 @@ class User < ApplicationRecord
     def new_token
       SecureRandom.urlsafe_base64
     end
+    
   end
 
   # Remembers a user in the database for use in persistent sessions.
@@ -39,6 +42,10 @@ class User < ApplicationRecord
   # Forgets a user.
   def forget
     update_attribute(:remember_digest, nil)
+  end
+  ###FOR TEACHERS ONLY###########
+  def owner?(course)
+    self.id == course.teacher_id
   end
 
 end

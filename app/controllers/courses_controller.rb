@@ -11,6 +11,8 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find(params[:id])
     @lessons = @course.lessons.paginate(page: params[:page])
+    @students = @course.students
+    # @registered_students = User.where(relationships.)
   end
   def my_courses
     @my_courses = Course.where(teacher_id: current_user.id) 
@@ -52,14 +54,29 @@ class CoursesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 ##ONLY FOR ADMINS#####################
   def add_students
     @students = User.where(student: true)
-    @course = Course.find(params[:id])
+    @course = Course.find(params[:course_id])
   end
   def register_student
-    @
+    @course = Course.find(params[:course_id])
+    @student = User.find(params[:student_id])
+    @course.register(@student)
+    
+    flash[:success] = ("You successfully add #{@student.name} to #{@course.title} course");
+    redirect_to action: "add_students", course_id: @course.id
   end
+  def unregister_student
+    @course = Course.find(params[:course_id])
+    @student = User.find(params[:student_id])
+    @course.unregister(@student)
+    flash[:success] = ("You successfully drop #{@student.name} from #{@course.title} course");
+    redirect_to action: "add_students", course_id: @course.id
+
+  end 
+######################################
   private
     def set_course
       @course = Course.find(params[:id])

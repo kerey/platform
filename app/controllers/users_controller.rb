@@ -5,19 +5,17 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
   
   def index
-      @users = User.paginate(page: params[:page])
+    @users = User.all.sort_by &:name
   end
-
   def show
     @user = User.find(params[:id])
   end
-
   def new
     @user = User.new
   end
-
   def create
     @user = User.new(user_params)
+    @user.student = true
     if @user.save
       log_in @user
       flash[:success] = "Welcome to the Sample App!"
@@ -26,37 +24,59 @@ class UsersController < ApplicationController
       render 'new'
     end
   end
-
   def edit
     @user = User.find(params[:id])
   end
-
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
+    if params[:role] == "1"
+      @user.student = true
+      @user.teacher = false
+      @user.admin = false
+    elsif params[:role] == "2"
+      @user.student = false
+      @user.teacher = true
+      @user.admin = false
+    elsif params[:role] == "3"
+      @user.student = false
+      @user.teacher = false
+      @user.admin = true
+    end     
+    if @user.update_attributes(user_params)        
       flash[:success] = "Profile updated"
-      redirect_to @user
-
+      if current_user.admin?
+        redirect_to users_path
+      elsif
+        redirect_to @user
+      end
     else
       render 'edit'
     end
   end
+
+  def teacher?
+    current_user.teacher
+  end
+###ONLY FOR ADMINS##############
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url
   end
-  def teacher?
-    current_user.teacher
-  end
-
+################################
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      if current_user
+        if current_user.admin?
+          params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
+        else
+        params.require(:user).permit(:name, :email, :password,  :password_confirmation)
+        end
+      else
+        params.require(:user).permit(:name, :email, :password,  :password_confirmation)
+      end
     end
-
     # Before filters
 
    # Confirms a logged-in user.
@@ -70,7 +90,7 @@ class UsersController < ApplicationController
    # Confirms the correct user.
    def correct_user
      @user = User.find(params[:id])
-     redirect_to(root_url) unless current_user?(@user)   
+     redirect_to(root_url) unless current_user?(@user)||current_user.admin?   
    end
    # Confirms an admin user.
    def admin_user
