@@ -1,37 +1,49 @@
 class LessonsController < ApplicationController
   	before_action :logged_in_user, only: [:create, :destroy, :new]
-  	before_action :registrated, only:[:show]
-  	
-  	def show
-  		@lesson = Lesson.find(params[:id])
-  	end
+  	before_action :find_lesson, only: [:show, :destroy, :edit, :update]
+  	# before_action :registrated, only: [:]
+##FOR ALL
   	def index
-		@course = Course.find(params[:id])
-		@lessons = @course.lessons
+		@lessons = current_course.lessons
+	end
+##ONLY FOR REGISTRATED STUDENTS######
+	def show
 	end
 ##ONLY FOR TEACHERS##############
   	def new
-  		@course = Course.find(params[:id])
-    	@lesson = @course.lessons.build if logged_in?   	
+    	@lesson = Lesson.new  	
   	end
 	def create 
-		@course = Course.find(params[:lesson][:course_id])
-		@lesson = @course.lessons.build(lesson_params)
+		@lesson = current_course.lessons.build(lesson_params)
 	    if @lesson.save
-	      	flash[:success] = "Lesson created!"
-	      	redirect_to controller: 'courses', action: 'show', id: @course.id
+	      	flash[:success] = "Урок создан!"
+	      	redirect_to current_course
 	    else
-	    	redirect_to 'static_pages/home'
+	      	flash[:error] = "Урок не создан!"
+	 		redirect_to current_course
+	    end
+	end
+	def edit
+	end
+	def update
+	    if @lesson.update(lesson_params)
+   	    	redirect_to @lesson, notice: 'Course was successfully updated.'
+	    else
+	    	render :edit 
 	    end
 	end
 	def destroy
-	end
+    	@lesson.destroy
+    	flash[:success] = "Урок был удален!"
+    	redirect_to current_course
+    end
 ##################################
 	private
+		def find_lesson
+  			@lesson = Lesson.find(params[:id])
+		end
 		def lesson_params
-		  params.require(:lesson).permit(:title, :short_description)
+		  params.require(:lesson).permit(:title, :short_description,:video_url )
 		end
-		def registrated 
-
-		end
+		
 end

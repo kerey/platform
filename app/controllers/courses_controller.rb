@@ -3,21 +3,20 @@ class CoursesController < ApplicationController
   
   before_action :set_course, only: [:show, :edit, :update, :destroy]
   before_action :check_owner, only: [:edit, :update, :destroy]
-  before_action :check_teacher, only: [:create, :new] 
+  before_action :check_teacher, only: [:create, :new, :my_courses] 
 ##FOR ALL#############################  
   def index
     @courses = Course.all
   end
   def show
-    @course = Course.find(params[:id])
     @lessons = @course.lessons.paginate(page: params[:page])
     @students = @course.students
-    # @registered_students = User.where(relationships.)
+    add_current_course(@course.id)
   end
+##ONLY FOR TEACHERS####################
   def my_courses
     @my_courses = Course.where(teacher_id: current_user.id) 
   end
-##ONLY FOR TEACHERS####################
   def new
     @course = Course.new
   end
@@ -26,25 +25,18 @@ class CoursesController < ApplicationController
     @course.teacher_id = current_user.id
     @course.teacher = current_user
     if @course.save
-      # format.html { redirect_to @course, notice: 'Course was successfully created.' }
-      # format.json { render :show, status: :created, location: @course }
-      redirect_to @course        
+      redirect_to @course, notice: 'Course was successfully created.'
     else
-      format.html { render :new }
-      format.json { render json: @course.errors, status: :unprocessable_entity }
+      render :new 
     end
   end
   def edit
   end
   def update
-    respond_to do |format|
-      if @course.update(course_params)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
-        format.json { render :show, status: :ok, location: @course }
-      else
-        format.html { render :edit }
-        format.json { render json: @course.errors, status: :unprocessable_entity }
-      end
+    if @course.update(course_params)
+      redirect_to @course, notice: 'Course was successfully updated.'
+    else
+      render :edit
     end
   end
   def destroy
@@ -54,7 +46,6 @@ class CoursesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
 ##ONLY FOR ADMINS#####################
   def add_students
     @students = User.where(student: true)

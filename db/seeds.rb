@@ -6,31 +6,37 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# User.create!(name:  "Admin",
-#              email: "info@intellection.kz",
-#              password:              "Intellection2015",
-#              password_confirmation: "Intellection2015",
-#              admin: true
-#              )
-# User.create!(name:  "Bakytzhan",
-#              email: "bb@intellection.kz",
-#              password:              "tomato1",
-#              password_confirmation: "tomato1",
-#              teacher: true
-#              )
-# User.create!(name:  "Akzholtay",
-#              email: "akzholtay.k@gmail.com",
-#              password:              "Fizik1995",
-#              password_confirmation: "Fizik1995",
-#              student: true
-#              )
+User.create!(name:  "Admin",
+             email: "info@intellection.kz",
+             password:              "Intellection2015",
+             password_confirmation: "Intellection2015",
+             admin: true
+             )
+User.create!(name:  "Bakytzhan",
+             email: "bb@intellection.kz",
+             password:              "tomato1",
+             password_confirmation: "tomato1",
+             teacher: true
+             )
+User.create!(name:  "Almas",
+             email: "almas@intellection.kz",
+             password:              "tomato1",
+             password_confirmation: "tomato1",
+             teacher: true
+             )
+User.create!(name:  "Akzholtay",
+             email: "akzholtay.k@gmail.com",
+             password:              "Fizik1995",
+             password_confirmation: "Fizik1995",
+             teacher: true
+             )
 
-# User.create!(name:  "Dariga",
-#              email: "dariga@intellection.kz",
-#              password:              "tomato1",
-#              password_confirmation: "tomato1",
-#              student: true
-#              )
+User.create!(name:  "Dariga",
+             email: "dariga@intellection.kz",
+             password:              "tomato1",
+             password_confirmation: "tomato1",
+             student: true
+             )
 User.create!(name:  "Sultan",
              email: "sultan@intellection.kz",
              password:              "tomato1",

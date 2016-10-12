@@ -1,17 +1,16 @@
 <h2><%=@course.title %></h2>
 <div class="students">
 	<div class="col-lg-6 notregistered">
-		<h2>Not registered students</h2>
+		<h2>Другие студенты</h2>
 		<table class = "table table-bordered">
 		<%@students.each do |student|%>
 			<%if !@course.registered?(student.id, @course.id)%>
-			
 				<tr>
 					<td>
 					<%=student.name%>
 					</td>
 					<td>
-					<%= link_to "Register", controller: "courses", action: "register_student", course_id:@course.id, student_id: student.id %>
+					<%= link_to "Зачислить в курс", controller: "courses", action: "register_student", course_id:@course.id, student_id: student.id %>
 					</td>	
 				</tr>
 			<%end%>
@@ -19,7 +18,7 @@
 		</table>
 	</div>
 	<div class="col-lg-6 registered">
-		<h2>Registered students</h2>
+		<h2>Студенты курса</h2>
 		<table class = "table table-bordered">
 		<%@students.each do |student|%>
 			<%if @course.registered?(student.id, @course.id)%>
@@ -28,11 +27,14 @@
 					<%=student.name%>
 					</td>
 					<td>
-					<%= link_to "Unregister", controller: "courses", action: "unregister_student", course_id: @course.id, student_id: student.id%>
+					<%= link_to "Удалить из курса", controller: "courses", action: "unregister_student", course_id: @course.id, student_id: student.id%>
 					</td>	
 				</tr>
 			<%end%>
 		<%end%>
 		</table>
 	</div>
+</div>
+<div class="back">
+	<%=link_to "Назад", current_course%>
 </div>

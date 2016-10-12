@@ -6,11 +6,11 @@
   <thead>
     <tr>
     	<th>#</th>
-      	<th>Title</th>
-      	<th>Short description</th>
-        <th>Number of students</th>
+      	<th>Название</th>
+      	<th>Описание</th>
+        <th>Количество студентов</th>
         <%if current_user.teacher?%>
-      	<th colspan="2">Operations</th>
+      	<th colspan="2">Опций</th>
         <%end%>
     </tr>
   </thead>
@@ -24,8 +24,8 @@
         <td><%= course.short_description %></td>
         <td><%= course.students.count%></td>
         <%if current_user.owner?(course) %>
-          <td><%= link_to 'Edit', edit_course_path(course), class: "btn btn-primary" %></td>
-          <td><%= link_to 'Destroy', course, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Редактировать', edit_course_path(course), class: "btn btn-primary" %></td>
+          <td><%= link_to 'Удалить', course, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
       </tr>
       <%i=i+1%>
@@ -35,4 +35,4 @@
 
 <br>
 
-<%= link_to 'New Course', new_course_path %>
+<%= link_to 'Добавить курс', new_course_path %>

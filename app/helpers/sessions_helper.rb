@@ -10,12 +10,10 @@ module SessionsHelper
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
-
   # Returns true if the given user is the current user.
   def current_user?(user)
     user == current_user
   end
-  
   # Returns the user corresponding to the remember token cookie.
    def current_user
      if (user_id = session[:user_id])
@@ -49,17 +47,20 @@ module SessionsHelper
   end
 
   # Redirects to stored location (or to the default).
-   def redirect_back_or(default)
-     redirect_to(session[:forwarding_url] || default)
-     session.delete(:forwarding_url)
-   end
-
-   # Stores the URL trying to be accessed.
-   def store_location
-     session[:forwarding_url] = request.original_url if request.get?
-   end
-  def current_course
-    @current_course ||= Course.find_by(id: session[:current_course_id])
+  def redirect_back_or(default)
+   redirect_to(session[:forwarding_url] || default)
+   session.delete(:forwarding_url)
   end
-   
+
+  # Stores the URL trying to be accessed.
+  def store_location
+   session[:forwarding_url] = request.original_url if request.get?
+  end
+  ###FOR CURRENT COURSES
+  def add_current_course(course_id)
+    session[:current_course_id] = course_id
+  end
+  def current_course
+    @current_course ||= Course.find(session[:current_course_id])
+  end
 end

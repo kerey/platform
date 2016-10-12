@@ -1,16 +1,19 @@
-<%= form_for Lesson.new do |l| %>
+<%= form_for @lesson do |l| %>
+  <%= render 'shared/error_messages', object: l.object %>
   <div class="field">
     <%= l.label :title %>
     <%= l.text_field :title %>
   </div>
-
   <div class="field">
     <%= l.label :short_description %>
     <%= l.text_area :short_description %>
   </div>
-  <%= l.hidden_field :course_id, :value => @course.id %>
+  <div class="video">
+    <%= l.label :video_url %>
+    <%= l.text_field :video_url %>
+  </div>
+  <a href = "#">add video</a> 
   <div class="actions">
-
-    <%= l.submit %>
+    <%= l.submit "Add", class: "btn btn-success" %>
   </div>
 <% end %>

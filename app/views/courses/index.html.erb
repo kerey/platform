@@ -1,15 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Courses</h1>
+<h1>Все курсы</h1>
 
 <table class = "table table-bordered">
   <thead>
     <tr>
       <th>#</th>
-      <th>Title</th>
-      <th>Short description</th>
-      <th>Teacher</th>
-      <th>Number of students</th>
+      <th>Название</th>
+      <th>Описание</th>
+      <th>Преподаватель</th>
+      <th>Количество студентов</th>
     </tr>
   </thead>
 
@@ -18,7 +18,13 @@
     <% @courses.each do |course| %>
       <tr>
         <td><%=i%></td>
-        <td><%= link_to course.title, course %></td>
+        <td>
+        <%if logged_in?%>
+          <%= link_to course.title, course %>
+        <%else%>
+          <%=course.title%>
+        <%end%>
+        </td>
         <td><%= course.short_description %></td>
         <%owner = User.find(course.teacher_id) %>
         <td><%= link_to owner.name, owner %></td>
@@ -31,6 +37,3 @@
 </table>
 
 <br>
-<%if current_user.teacher?%>
-  <%= link_to 'New Course', new_course_path, class: "btn btn-success" %>
-<%end%>
