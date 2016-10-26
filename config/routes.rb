@@ -19,4 +19,5 @@ Rails.application.routes.draw do
 
 	resources :users
   resources :lessons#, only: [:create, :destroy]
+  resources :answers
 end

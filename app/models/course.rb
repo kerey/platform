@@ -1,11 +1,11 @@
 class Course < ApplicationRecord
+  	attr_accessor :remember_token, :avatar
 	belongs_to :teacher, class_name: "User", foreign_key: :teacher_id
-	has_many :lessons, dependent: :destroy
-	
-	# has_many :registrations, class_name: "Relationship", foreign_key: "student_id", dependent: :destroy
-	# has_many :students, through: :registrations
+	has_many :lessons, dependent: :destroy	
 	has_many :relationships	
 	has_many :students, through: :relationships
+  	mount_uploader :avatar, AvatarUploader
+	
 	def register(student)
 	  	relationships.create(student_id: student.id)
 	end

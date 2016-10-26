@@ -5,13 +5,16 @@
     		<%= @course.title %>
   		</h1>
       <p>
+        <%= image_tag @course.avatar_url(:thumb) if @course.avatar? %>
+
         Описание:
         <%= @course.short_description %>
+
       </p>
   	</div>
   	<div class="col-md-4">
-    	<% if @course.lessons.any? %>
-	      <h3>Все уроки (<%= @course.lessons.count %>)</h3>
+    	<h3>Все уроки (<%= @course.lessons.count %>)</h3>
+      <% if @course.lessons.any? %>
         <ol class="lessons">
           <%@course.lessons.each do |lesson|%>
             <li id="lesson-<%= lesson.id %>">

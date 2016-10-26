@@ -1,0 +1,14 @@
+<%= form_for @answer do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_field :content %>
+  </div>  
+  <div class="file">
+  	<%= f.file_field :answer_file%>
+  </div>
+  <div class="actions">
+    <%= f.submit "Отправить", class: "btn btn-success" %>
+  </div>
+
+<% end %>

@@ -1,19 +1,39 @@
 <%= form_for @lesson do |l| %>
   <%= render 'shared/error_messages', object: l.object %>
-  <div class="field">
-    <%= l.label :title %>
-    <%= l.text_field :title %>
+  
+  <div id = "lessonSet">
+    <div class="field">
+      <%= l.label :title %>
+      <%= l.text_field :title %>
+    </div>
+    <div class="field">
+      <%= l.label :short_description %>
+      <%= l.text_area :short_description %>
+    </div>
   </div>
-  <div class="field">
-    <%= l.label :short_description %>
-    <%= l.text_area :short_description %>
-  </div>
-  <div class="video">
-    <%= l.label :video_url %>
-    <%= l.text_field :video_url %>
-  </div>
-  <a href = "#">add video</a> 
+  
+  <a href="javascript:;" id="addNewVideo">Добавить видео</a>
+  
+  <div>
+    <div class="homework">
+      <div class = "col-lg-1">Домащнее задание</div>
+      <div class = "col-lg-1"><%= check_box_tag :homework, 'homework',false %></div>
+    </div>
+  </div>  
+  
   <div class="actions">
     <%= l.submit "Add", class: "btn btn-success" %>
   </div>
+
 <% end %>
+
+<div class="hide" id="new_video_form">
+  <%= render partial: "video_form", locals: {video: false} %>
+</div>
+<script>
+  $(document).ready(function(){
+    $("#addNewVideo").click(function(){
+      $("#lessonSet").append($("#new_video_form").html());
+    });
+  });
+</script>

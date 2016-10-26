@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :avatar
   before_save { self.email = email.downcase }
   validates :name,  presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -12,7 +12,9 @@ class User < ApplicationRecord
 
   # has_many name: "Relationship", foreign_key: "course_id", dependent: :destroy
   has_many :relationships  
-  has_many :courses, through: :relationships 
+  has_many :courses, through: :relationships
+  has_one :answer 
+  mount_uploader :avatar, AvatarUploader
   class << self
     # Returns the hash digest of the given string.
     def digest(string)
@@ -47,5 +49,8 @@ class User < ApplicationRecord
   def owner?(course)
     self.id == course.teacher_id
   end
-
+  ###FOR STUDENTS ONLY###########
+  def answered(lesson_id)
+    Answer.exists?(student_id: self.id, lesson_id: lesson_id)
+  end
 end

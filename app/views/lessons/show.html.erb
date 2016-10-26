@@ -1,19 +1,39 @@
 <div id="lesson-<%= @lesson.id %>">
   <ul>
-  	<h3 class="title"><%= @lesson.title %></h3>
+    <h3 class="title"><%= @lesson.title %></h3>
+  	<%if @lesson.homework%>
+    <%= "is homework"%>    
+    <%end%><br/>
     <%= @lesson.short_description %>
     <p class = "lesson-body">
-      <%if @lesson.video_url != ""%>
+      <%@lesson.videos.each do |v|%>
         <video width="400" controls>
-          <source src="<%=@lesson.video_url%>" type="video/mp4">
+          <source src="<%=v.url%>" type="video/mp4">
           <!-- <source src="https://www.dropbox.com/s/tet69o7be8elr97/VIDEO0161.webm?dl=1" type="video/webm">
           <source src="https://www.dropbox.com/s/cmpn8t48g1ftnbn/VIDEO0161.ogv?dl=1" type="video/ogv"> -->
           Your browser does not support HTML5 video.
         </video>
       <%end%>
     </p>
+  <%if @lesson.homework%>
+    <%if current_user.student%>
+      <%if current_user.answered(@lesson)%>
+        Your answer: 
+        <%= render 'form_for_answer'%>
+      <%else%>
+        Your answer: 
+        <%= render 'form_for_answer'%>
+      <%end%>
+    <%elsif current_user.owner?(current_course)%>
+      Ответы: 
+      <%= render 'answers'%><br>
+    <%end%>
+  <%else%>
+
+  <%end%>
   <%if current_user.owner?(current_course)%>
     <%= link_to "Редактировать", edit_lesson_path%>
   <%end%>
+
   <%=link_to "Назад", current_course%>
 </div>
