@@ -29,10 +29,8 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'paperclip'
 gem 'rmagick'
 gem 'carrierwave'
-
-gem 'will_paginate',           '3.1.0'
-gem 'bootstrap-will_paginate', '0.0.10'
-
+# authorization
+gem 'devise'
 
 gem 'faker',          '1.6.3'
 
