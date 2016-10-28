@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :courses
   get '/my-courses',   to: 'courses#my_courses'
   get '/add_students', to: 'courses#add_students'
@@ -17,7 +18,10 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  get 'answers/changePoint'
+
 	resources :users
   resources :lessons#, only: [:create, :destroy]
+  resources :homeworks
   resources :answers
 end

@@ -13,8 +13,14 @@ class User < ApplicationRecord
   # has_many name: "Relationship", foreign_key: "course_id", dependent: :destroy
   has_many :relationships  
   has_many :courses, through: :relationships
-  has_one :answer 
+  has_many :answers 
   mount_uploader :avatar, AvatarUploader
+
+  rails_admin do
+  end
+  scope :instanceprojects, lambda { |user|
+      where("projects.instance_id = ?", user.instance_id)
+  }
   class << self
     # Returns the hash digest of the given string.
     def digest(string)
@@ -50,7 +56,10 @@ class User < ApplicationRecord
     self.id == course.teacher_id
   end
   ###FOR STUDENTS ONLY###########
-  def answered(lesson_id)
-    Answer.exists?(student_id: self.id, lesson_id: lesson_id)
+  def answered(homework_id)
+    Answer.exists?(user_id: self.id, homework_id: homework_id)
+  end
+  def getAnswer(homework_id)
+    self.answers.find_by(homework_id: homework_id)
   end
 end

@@ -9,12 +9,6 @@ class LessonsController < ApplicationController
 ##ONLY FOR REGISTRATED STUDENTS######
 	def show
 		add_current_lesson(@lesson.id)
-		if current_user.student && !current_user.answered(@lesson)
-			@answer = Answer.new
-		end
-		if current_user.owner?(current_course)
-			@answers = current_lesson.answers
-		end
 	end
 ##ONLY FOR TEACHERS##############
   	def new
@@ -31,16 +25,11 @@ class LessonsController < ApplicationController
 		      	# .create :lesson_id => @lesson.id, :url => videos[index]
 	    	end
 	   	end
-	    type = "Урок"
-		if params[:homework]
-			@lesson.homework = true
-			type = "Домашнее задание"
-		end
-		if @lesson.save
-	      	flash[:success] = "#{type} создан!"
+	    if @lesson.save
+	      	flash[:success] = "Урок создан!"
 	      	redirect_to current_course
 	    else
-	      	flash[:error] = "#{type} не создан!"
+	      	flash[:error] = "Урок не создан!"
 	 		render :new
 	    end
 	end

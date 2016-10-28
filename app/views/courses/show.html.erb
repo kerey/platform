@@ -13,21 +13,22 @@
       </p>
   	</div>
   	<div class="col-md-4">
-    	<h3>Все уроки (<%= @course.lessons.count %>)</h3>
-      <% if @course.lessons.any? %>
+      <% if @tasks.any? %>
+
+    	 <h3>Все уроки (<%= @tasks.count %>)</h3>
         <ol class="lessons">
-          <%@course.lessons.each do |lesson|%>
-            <li id="lesson-<%= lesson.id %>">
-              <span class="title"><strong><%= lesson.title %></strong></span>
+          <%@tasks.each do |task|%>
+            <li id="task">
+              <span class="title"><strong><%= task.title %></strong></span>
 
               <%if @course.registered?(current_user.id, @course.id)||@course.teacher_id == current_user.id%>
-                <span><%=link_to "Открыть", lesson %></span>
+                <span><%=link_to "Открыть", task %></span>
               <%end%>
               
               <%if current_user.owner?(@course)%>
-                <span><%= link_to "Удалить",lesson, method: :delete, data: { confirm: 'Вы уверены?' } %></span>
+                <span><%= link_to "Удалить",task, method: :delete, data: { confirm: 'Вы уверены?' } %></span>
                 <span class="timestamp">
-                  Created <%= time_ago_in_words(lesson.created_at) %> ago.
+                  Created <%= time_ago_in_words(task.created_at) %> ago.
                 </span>
               <%end%>
             </li>
@@ -52,7 +53,8 @@
 
     <%if current_user.owner?(@course)%>
       <%= link_to "Редактировать", edit_course_path%>
-      <%= link_to "Добавить урок", controller: "lessons", action: "new"%>
+      <%= link_to "Добавить урок", new_lesson_path%>
+      <%= link_to "Добавить домащнее задание", new_homework_path%>
     <%end%>
   </div>
 </div>

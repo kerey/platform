@@ -70,4 +70,11 @@ module SessionsHelper
   def current_lesson
     @current_lesson ||= Lesson.find(session[:current_lesson_id])
   end 
+  ###FOR CURRENT HOMEWORK
+  def add_current_homework(homework_id)
+    session[:current_homework_id] = homework_id
+  end
+  def current_homework
+    @current_homework ||= Homework.find(session[:current_homework_id])
+  end 
 end

@@ -26,14 +26,17 @@ gem 'jbuilder', '~> 2.5'
 gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+# work with files
 # gem 'paperclip'
 gem 'rmagick'
 gem 'carrierwave'
+#admin panel
+gem 'rails_admin', '~> 1.0'
+#for paginating
+# gem 'will_paginate',           '3.1.0'
+# gem 'bootstrap-will_paginate', '0.0.10'
 
-gem 'will_paginate',           '3.1.0'
-gem 'bootstrap-will_paginate', '0.0.10'
-
-
+#generate fakes
 gem 'faker',          '1.6.3'
 
 # gem 'dropbox-api'
