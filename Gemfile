@@ -31,10 +31,8 @@ gem 'rmagick'
 gem 'carrierwave'
 # authorization
 gem 'devise'
-
-gem 'faker',          '1.6.3'
-
-# gem 'dropbox-api'
+# admin panel
+gem 'rails_admin', '~> 1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

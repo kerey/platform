@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  devise_for :controllers => { :sessions => "my_session" } 
+  devise_for :users
   resources :courses
   get '/my-courses',   to: 'courses#my_courses'
   get '/add_students', to: 'courses#add_students'
@@ -6,7 +9,6 @@ Rails.application.routes.draw do
   get '/unregister_student', to: 'courses#unregister_student'
   
   root 'static_pages#home'
-  get 'sessions/new'
   get 'users/new'
   get  '/help',    to: 'static_pages#help'
   get  '/about',   to: 'static_pages#about'

@@ -19,7 +19,7 @@
       <tr>
         <td><%=i%></td>
         <td>
-        <%if logged_in?%>
+        <%if user_signed_in?%>
           <%= link_to course.title, course %>
         <%else%>
           <%=course.title%>

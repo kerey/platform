@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:edit, :update, :destroy]
   
   before_action :set_course, only: [:show, :edit, :update, :destroy]
   before_action :check_owner, only: [:edit, :update, :destroy]
@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
     @courses = Course.all
   end
   def show
-    @lessons = @course.lessons.paginate(page: params[:page])
+    @lessons = @course.lessons
     @students = @course.students
     add_current_course(@course.id)
   end
@@ -85,6 +85,12 @@ class CoursesController < ApplicationController
     end
     def check_owner
       redirect_to(root_url) unless current_user?(@course.teacher) 
+    end
+    def add_current_course(course_id)
+      session[:current_course_id] = course_id
+    end
+    def current_course
+      session[:current_course_id]
     end
 
 end

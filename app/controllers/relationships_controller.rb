@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-	before_action :logged_in_user
+	before_action :authenticate_user!
 	def create
 		student = User.find(params[:student_id])
 		course = Course.find(params[:course_id])

@@ -1,20 +1,11 @@
-<% provide(:title, @user.name) %>
+<% provide(:title, "User") %>
 <div class="row">
   <aside class="col-md-4">
     <section class="user_info">
       <h1>
-      	<%= image_tag @user.avatar_url(:thumb) if @user.avatar? %>
-        <%= @user.name %>
-    	<%if @user.admin?%>
-    		admin
-    	<%end%>
-    	<%if @user.teacher?%>
-    		teacher
-    	<%end%>
-    	<%if @user.student?%>
-    		student
-    	<%end%>
-      </h1>
+      	<%#= image_tag @user.avatar_url(:thumb) if @user.avatar? %>
+        <%#= @user.name %>
+    	</h1>
     </section>
   </aside>
 </div>
