@@ -33,6 +33,8 @@ gem 'carrierwave'
 gem 'devise'
 # admin panel
 gem 'rails_admin', '~> 1.0'
+# calendar:
+gem 'simple_calendar', '~> 2.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -10,20 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028092409) do
+ActiveRecord::Schema.define(version: 20161102092050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
     t.text     "content"
-    t.integer  "lesson_id"
-    t.integer  "user_id"
+    t.integer  "student_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "answer_file"
-    t.index ["lesson_id"], name: "index_answers_on_lesson_id", using: :btree
-    t.index ["user_id"], name: "index_answers_on_user_id", using: :btree
+    t.integer  "homework_id"
+    t.text     "comment"
+    t.integer  "points"
+    t.index ["student_id"], name: "index_answers_on_student_id", using: :btree
   end
 
   create_table "courses", force: :cascade do |t|
@@ -36,23 +37,35 @@ ActiveRecord::Schema.define(version: 20161028092409) do
   end
 
   create_table "homeworks", force: :cascade do |t|
-    t.text     "content"
-    t.integer  "lesson_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_homeworks_on_lesson_id", using: :btree
+    t.string   "title"
+    t.text     "short_description"
+    t.integer  "points"
+    t.integer  "course_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["course_id"], name: "index_homeworks_on_course_id", using: :btree
   end
 
   create_table "lessons", force: :cascade do |t|
     t.string   "title"
     t.text     "short_description"
     t.integer  "course_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "video_url",         default: ""
-    t.boolean  "homework",          default: false
     t.index ["course_id", "created_at"], name: "index_lessons_on_course_id_and_created_at", using: :btree
     t.index ["course_id"], name: "index_lessons_on_course_id", using: :btree
+  end
+
+  create_table "passings", force: :cascade do |t|
+    t.integer  "lesson_id"
+    t.integer  "student_id"
+    t.boolean  "pass",       default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["lesson_id", "student_id"], name: "index_passings_on_lesson_id_and_student_id", unique: true, using: :btree
+    t.index ["lesson_id"], name: "index_passings_on_lesson_id", using: :btree
+    t.index ["student_id"], name: "index_passings_on_student_id", using: :btree
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -95,6 +108,6 @@ ActiveRecord::Schema.define(version: 20161028092409) do
     t.index ["lesson_id"], name: "index_videos_on_lesson_id", using: :btree
   end
 
-  add_foreign_key "homeworks", "lessons"
+  add_foreign_key "homeworks", "courses"
   add_foreign_key "lessons", "courses"
 end

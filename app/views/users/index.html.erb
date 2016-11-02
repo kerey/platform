@@ -5,7 +5,7 @@
 <%@users.each do |user|%>
 	<tr>
 		<td><%=i%></td>
-		<td><%=link_to user.name, user%></td>
+		<td><%=link_to user.name, %></td>
 		<%if current_user.admin?%>
 			<td><%=user.email%></td>
 			<td><%=link_to "Редактировать", edit_user_path(user)%></td>

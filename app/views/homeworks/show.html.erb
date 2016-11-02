@@ -1,0 +1,23 @@
+<div id="homework-<%= @homework.id %>">
+  <h3 class="title"><%= @homework.title %></h3>
+  Описание: <%= @homework.short_description %><br>
+  Максимум балл: <%= @homework.points%><br>
+  
+  <%if current_user.student%>
+    <%if current_user.answered(@homework)%>
+      <%= link_to "Посмотреть ответ",  current_user.getAnswer(@homework.id) %>
+    <%else%>
+      Your answer: 
+      <%= link_to "Ответить", new_answer_path%>
+    <%end%>
+
+  <%elsif current_user.owner?(current_course)%>
+    Ответы: 
+    <%= render 'answers'%><br>
+  <%end%>
+  <%if current_user.owner?(current_course)%>
+    <%= link_to "Редактировать", edit_homework_path%>
+  <%end%>
+
+  <%=link_to "Назад", current_course%>
+</div>

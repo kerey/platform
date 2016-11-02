@@ -1,0 +1,28 @@
+Ответ от <%= User.find(@answer.student).name%><br>
+Текст: <%= @answer.content%><br>
+Файл: <%= link_to "Скачать", @answer.answer_file.url %><br>
+Балл: <%= @answer.points%><br>
+Коммент: <%= @answer.comment %>
+
+<%if current_user.owner?(current_course)%>
+	<%= form_for(@answer, html: {method: "patch"}) do |f| %>
+	  <%= render 'shared/error_messages', object: f.object %>
+	    <div class="field">
+	      <%= f.label "Комментарий" %>
+	      <%= f.text_area :comment %>
+	    </div>
+	    <div class="field">
+	      <%= f.label "Балл" %>
+	      <%= f.text_area :points %>
+	    </div>
+	  </div>
+	  
+	  <div class="actions">
+	    <%= f.submit "OK", class: "btn btn-success" %>
+	  </div>
+	<% end %>
+<%end%>
+<%if current_user.student%>
+	<%= link_to "Изменить ответ", edit_answer_path(@answer)%>
+<%end%>
+<br><%= link_to "Назад", current_homework%>

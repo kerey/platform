@@ -1,5 +1,5 @@
 class LessonsController < ApplicationController
-  	before_action :logged_in_user, only: [:create, :destroy, :new]
+  	before_action :authenticate_user!
   	before_action :find_lesson, only: [:show, :destroy, :edit, :update]
   	# before_action :registrated, only: [:]
 ##FOR ALL

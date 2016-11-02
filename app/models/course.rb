@@ -2,6 +2,7 @@ class Course < ApplicationRecord
   	attr_accessor :remember_token, :avatar
 	belongs_to :teacher, class_name: "User", foreign_key: :teacher_id
 	has_many :lessons, dependent: :destroy	
+	has_many :homeworks, dependent: :destroy	
 	has_many :relationships	
 	has_many :students, through: :relationships
   	mount_uploader :avatar, AvatarUploader

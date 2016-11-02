@@ -10,6 +10,9 @@ class CoursesController < ApplicationController
   end
   def show
     @lessons = @course.lessons
+    @homeworks = @course.homeworks
+    @tasks = @lessons + @homeworks
+    @tasks.sort_by(&:created_at)
     @students = @course.students
     add_current_course(@course.id)
   end

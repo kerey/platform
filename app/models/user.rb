@@ -4,22 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   attr_accessor :avatar
-  # before_save { self.email = email.downcase }
-  # validates :name,  presence: true, length: { maximum: 50 }
-  # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  # validates :email, presence: true, length: { maximum: 255 },
-                    # format: { with: VALID_EMAIL_REGEX },
-                    # uniqueness: { case_sensitive: false }
-  # has_secure_password
-  # validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   
   has_many :teachings, class_name: "Course", foreign_key: :teacher_id
-
-  # has_many name: "Relationship", foreign_key: "course_id", dependent: :destroy
   has_many :relationships  
   has_many :courses, through: :relationships, foreign_key: :student_id
-  has_one :answer 
+  has_many :answers, foreign_key: :student_id 
+
   mount_uploader :avatar, AvatarUploader
+  
   class << self
     # Returns the hash digest of the given string.
     def digest(string)
@@ -56,6 +48,9 @@ class User < ApplicationRecord
   end
   ###FOR STUDENTS ONLY###########
   def answered(lesson_id)
-    Answer.exists?(student_id: self.id, lesson_id: lesson_id)
+    Answer.exists?(student_id: self.id, homework_id: lesson_id)
+  end
+  def getAnswer(homework_id)
+    self.answers.find_by(homework_id: homework_id)
   end
 end
